@@ -1,0 +1,61 @@
+.mainDashboard{
+    border: 1px solid black;
+    padding: 15px;
+    margin: 10px 0px;
+    border-radius: 5px;
+}
+.dashboard{
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.dashboard input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
+.questionContent{
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    margin-bottom: 10px;
+}
+.questionContent input{
+    flex-grow: 1;
+    padding: 8px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+.deleteBtn{
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+.choiceBtn {
+    background-color: #91f394;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.addButton{
+    padding: 10px 20px;
+    background-color: #91f394;
+    color: black;
+    cursor: pointer;
+    border: none;
+    margin-top: 15px;
+}
+
+.choiceInput{
+    flex-grow: 1; 
+}
+.choiceInput input{
+    flex-grow: 1;
+    padding: 5px;
+}
