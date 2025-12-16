@@ -112,6 +112,9 @@ function Question() {
     if (!isFirstQuestion) {
       setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
     }
+    else if(isFirstQuestion){
+      navigate("/")
+    }
   };
 
   const handleAnswerChange = (questionId, value) => {

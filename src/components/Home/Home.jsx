@@ -50,7 +50,6 @@ function Home() {
           onClick={handleNavigate}
           disabled={!hasQuestions}
           style={{
-            opacity: hasQuestions ? 1 : 0.5,
             cursor: hasQuestions ? "pointer" : "not-allowed"
           }}
         >
