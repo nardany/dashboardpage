@@ -7,9 +7,12 @@ function Home(){
   const handleNavigate =()=>{
       navigate("/questions")
   }
-  
+  const handleDashboard = ()=>{
+    navigate("/dashboard")
+  }
     return(
     <div className="main">
+      <button style={{marginBottom : "15px"}} onClick={handleDashboard}>Dashboard</button>
       <div className="content contentHome">
         <p className="header">FIND OUT YOUR HAIR TYPE</p>
         <div className="infoContent">
