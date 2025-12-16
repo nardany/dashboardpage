@@ -10,7 +10,7 @@ function Home(){
   
     return(
     <div className="main">
-      <div className="content">
+      <div className="content contentHome">
         <p className="header">FIND OUT YOUR HAIR TYPE</p>
         <div className="infoContent">
           <p className="info">

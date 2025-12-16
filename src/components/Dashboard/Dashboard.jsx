@@ -44,15 +44,15 @@ const SortableProductItem = ({ id, onRemove, label }) => {
       style={style}
       {...attributes}
     >
-      <span 
-        {...listeners} 
+      <span
+        {...listeners}
         style={{ cursor: 'grab', marginRight: '5px' }}
       >
         ⠿
       </span>
       {label}
-      <button 
-        onClick={() => onRemove(id)} 
+      <button
+        onClick={() => onRemove(id)}
         style={{ marginLeft: '5px', background: 'none', border: 'none', cursor: 'pointer', color: 'red', fontWeight: 'bold' }}
       >
         x
@@ -62,18 +62,18 @@ const SortableProductItem = ({ id, onRemove, label }) => {
 };
 
 
-const ChoiceInput = ({ choice, onChoiceChange, onRemove, onAttachProduct, onReorderProducts, getProductLabel }) => {
+const ChoiceInput = ({ choice, onChoiceChange, onRemove, onAttachProduct, onReorderProducts, getProductLabel, onProductsLoaded }) => {
   const onProductDragEnd = (result) => {
     const { active, over } = result;
     if (active.id !== over?.id) {
-        const currentIds = Array.isArray(choice.productIds) ? choice.productIds : [];
-        const oldIndex = currentIds.findIndex(id => id === active.id);
-        const newIndex = currentIds.findIndex(id => id === over.id);
+      const currentIds = Array.isArray(choice.productIds) ? choice.productIds : [];
+      const oldIndex = currentIds.findIndex(id => id === active.id);
+      const newIndex = currentIds.findIndex(id => id === over.id);
 
-        if (oldIndex !== -1 && newIndex !== -1) {
-            const newProductIds = arrayMove(currentIds, oldIndex, newIndex);
-            onReorderProducts(choice.id, newProductIds);
-        }
+      if (oldIndex !== -1 && newIndex !== -1) {
+        const newProductIds = arrayMove(currentIds, oldIndex, newIndex);
+        onReorderProducts(choice.id, newProductIds);
+      }
     }
   };
 
@@ -97,8 +97,9 @@ const ChoiceInput = ({ choice, onChoiceChange, onRemove, onAttachProduct, onReor
       <ProductSelector
         onProductAttach={(newProductId) => onAttachProduct(choice.id, newProductId)}
         attachedProductIds={choice.productIds || []}
+        onProductsLoaded={onProductsLoaded}
       />
-      
+
       {(choice.productIds && choice.productIds.length > 0) && (
         <div style={{ marginTop: '10px' }}>
           <strong>Attached Products:</strong>
@@ -115,7 +116,7 @@ const ChoiceInput = ({ choice, onChoiceChange, onRemove, onAttachProduct, onReor
                   <SortableProductItem
                     key={productId}
                     id={productId}
-                    label={getProductLabel(productId)} 
+                    label={getProductLabel(productId)}
                     onRemove={handleRemoveAttachedProduct}
                   />
                 ))}
@@ -129,7 +130,7 @@ const ChoiceInput = ({ choice, onChoiceChange, onRemove, onAttachProduct, onReor
 };
 
 
-const SortableChoiceItem = ({ choice, onChoiceChange, onRemove, onAttachProduct, onReorderProducts, getProductLabel }) => {
+const SortableChoiceItem = ({ choice, onChoiceChange, onRemove, onAttachProduct, onReorderProducts, getProductLabel, onProductsLoaded }) => {
   const {
     attributes,
     listeners,
@@ -142,7 +143,7 @@ const SortableChoiceItem = ({ choice, onChoiceChange, onRemove, onAttachProduct,
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    zIndex: isDragging ? 2 : 0, 
+    zIndex: isDragging ? 2 : 0,
     opacity: isDragging ? 0.6 : 1,
     backgroundColor: 'white',
   };
@@ -154,8 +155,8 @@ const SortableChoiceItem = ({ choice, onChoiceChange, onRemove, onAttachProduct,
       {...attributes}
     >
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <span 
-          {...listeners} 
+        <span
+          {...listeners}
           style={{ cursor: 'grab', marginRight: '10px' }}
         >
           ⠿
@@ -167,6 +168,7 @@ const SortableChoiceItem = ({ choice, onChoiceChange, onRemove, onAttachProduct,
           onAttachProduct={onAttachProduct}
           onReorderProducts={onReorderProducts}
           getProductLabel={getProductLabel}
+          onProductsLoaded={onProductsLoaded}
         />
       </div>
     </div>
@@ -174,31 +176,31 @@ const SortableChoiceItem = ({ choice, onChoiceChange, onRemove, onAttachProduct,
 };
 
 
-const QuestionBlock = ({ question, onUpdate, onDelete, products }) => {
-    const {
-      attributes,
-      listeners,
-      setNodeRef,
-      transform,
-      transition,
-      isDragging
-    } = useSortable({ id: question.id });
+const QuestionBlock = ({ question, onUpdate, onDelete, products, onProductsLoaded }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging
+  } = useSortable({ id: question.id });
 
-    const style = {
-      transform: CSS.Transform.toString(transform),
-      transition,
-      border: isDragging ? '1px dashed #007bff' : '1px solid black',
-      opacity: isDragging ? 0.6 : 1,
-      zIndex: isDragging ? 1 : 'auto',
-      backgroundColor: 'white', 
-      padding: "15px",
-      margin: "10px 0px",
-      borderRadius: "5px",
-    };
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    border: isDragging ? '1px dashed #007bff' : '1px solid black',
+    opacity: isDragging ? 0.6 : 1,
+    zIndex: isDragging ? 1 : 'auto',
+    backgroundColor: 'white',
+    padding: "15px",
+    margin: "10px 0px",
+    borderRadius: "5px",
+  };
 
   const getProductLabel = (productId) => {
     const product = products.find(p => p.id.toString() === productId.toString());
-    return product ? product.name : `Product ${productId}`;
+    return product ? product.title : `Product ${productId}`;
   };
 
   const handleTextChange = (e) => {
@@ -236,7 +238,7 @@ const QuestionBlock = ({ question, onUpdate, onDelete, products }) => {
     const updatedChoices = question.choices.filter((c) => c.id !== choiceId);
     onUpdate({ ...question, choices: updatedChoices });
   };
-  
+
   const handleAttachProduct = (choiceId, productId) => {
     const productIdStr = productId.toString();
     const updatedChoices = question.choices.map((c) => {
@@ -258,27 +260,27 @@ const QuestionBlock = ({ question, onUpdate, onDelete, products }) => {
 
   const handleReorderProducts = (choiceId, newProductIds) => {
     const updatedChoices = question.choices.map((c) => {
-        if (c.id === choiceId) {
-            return { ...c, productIds: newProductIds };
-        }
-        return c;
+      if (c.id === choiceId) {
+        return { ...c, productIds: newProductIds };
+      }
+      return c;
     });
     onUpdate({ ...question, choices: updatedChoices });
   };
-  
+
   const isChoiceBased = question.type !== "text";
 
   const onChoiceDragEnd = (result) => {
     const { active, over } = result;
 
     if (active.id !== over?.id) {
-        const oldIndex = question.choices.findIndex(c => c.id === active.id);
-        const newIndex = question.choices.findIndex(c => c.id === over.id);
+      const oldIndex = question.choices.findIndex(c => c.id === active.id);
+      const newIndex = question.choices.findIndex(c => c.id === over.id);
 
-        if (oldIndex !== -1 && newIndex !== -1) {
-            const newChoices = arrayMove(question.choices, oldIndex, newIndex);
-            onUpdate({ ...question, choices: newChoices });
-        }
+      if (oldIndex !== -1 && newIndex !== -1) {
+        const newChoices = arrayMove(question.choices, oldIndex, newIndex);
+        onUpdate({ ...question, choices: newChoices });
+      }
     }
   };
 
@@ -290,9 +292,9 @@ const QuestionBlock = ({ question, onUpdate, onDelete, products }) => {
       className="mainDashboard"
     >
       <div className="questionContent" style={{ display: 'flex', alignItems: 'center' }}>
-        <span 
-          {...listeners} 
-          {...attributes} 
+        <span
+          {...listeners}
+          {...attributes}
           style={{ cursor: 'grab', marginRight: '10px' }}
         >
           ⠿
@@ -313,12 +315,12 @@ const QuestionBlock = ({ question, onUpdate, onDelete, products }) => {
       </div>
 
       {isChoiceBased && (
-        <DndContext 
-          collisionDetection={closestCenter} 
+        <DndContext
+          collisionDetection={closestCenter}
           onDragEnd={onChoiceDragEnd}
         >
           <SortableContext
-            items={question.choices.map(c => c.id)} 
+            items={question.choices.map(c => c.id)}
             strategy={verticalListSortingStrategy}
           >
             <div style={{ marginTop: '10px' }}>
@@ -332,6 +334,7 @@ const QuestionBlock = ({ question, onUpdate, onDelete, products }) => {
                   onAttachProduct={handleAttachProduct}
                   onReorderProducts={handleReorderProducts}
                   getProductLabel={getProductLabel}
+                  onProductsLoaded={onProductsLoaded}
                 />
               ))}
             </div>
@@ -350,19 +353,15 @@ const QuestionBlock = ({ question, onUpdate, onDelete, products }) => {
 function Dashboard() {
   const [quizData, setQuizData] = useState(initialQuizState);
   const [products, setProducts] = useState([]);
-    const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  const handleNavigate =()=>{
-      navigate("/")
+  const handleNavigate = () => {
+    navigate("/")
   }
 
-  useEffect(() => {
-    setProducts([
-        { id: '101', name: 'Product A' },
-        { id: '102', name: 'Product B' },
-        { id: '103', name: 'Product C' },
-    ]);
-  }, []);
+  const handleProductsLoaded = (loadedProducts) => {
+    setProducts(loadedProducts);
+  };
 
   useEffect(() => {
     const savedData = localStorage.getItem("quizBuilderData");
@@ -372,19 +371,28 @@ function Dashboard() {
         const sanitizedQuestions = parsedData.questions.map((q) => ({
           ...q,
           choices: q.choices.map((c) => ({
-            ...c, 
+            ...c,
             productIds: c.productId
-              ? [c.productId]
+              ? [c.productId.toString()]
               : Array.isArray(c.productIds)
-              ? c.productIds
-              : [],
-            productId: undefined, 
+                ? c.productIds
+                : [],
+            productId: undefined,
           })),
         }));
 
         setQuizData({ ...parsedData, questions: sanitizedQuestions });
       } catch (e) {
-        console.error("Error", e);
+        console.error("Error loading quiz data:", e);
+      }
+    }
+
+    const savedProducts = localStorage.getItem("quizBuilderProducts");
+    if (savedProducts) {
+      try {
+        setProducts(JSON.parse(savedProducts));
+      } catch (e) {
+        console.error("Error loading product data:", e);
       }
     }
   }, []);
@@ -392,6 +400,12 @@ function Dashboard() {
   useEffect(() => {
     localStorage.setItem("quizBuilderData", JSON.stringify(quizData));
   }, [quizData]);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      localStorage.setItem("quizBuilderProducts", JSON.stringify(products));
+    }
+  }, [products]);
 
   const handleTitleChange = (e) => {
     setQuizData({ ...quizData, title: e.target.value });
@@ -425,26 +439,29 @@ function Dashboard() {
       ),
     }));
   };
-  
+
   const onQuestionDragEnd = (result) => {
     const { active, over } = result;
 
     if (active.id !== over?.id) {
-        setQuizData((prevData) => {
-            const oldIndex = prevData.questions.findIndex(q => q.id === active.id);
-            const newIndex = prevData.questions.findIndex(q => q.id === over.id);
+      setQuizData((prevData) => {
+        const oldIndex = prevData.questions.findIndex(q => q.id === active.id);
+        const newIndex = prevData.questions.findIndex(q => q.id === over.id);
 
-            if (oldIndex === -1 || newIndex === -1) return prevData;
+        if (oldIndex === -1 || newIndex === -1) return prevData;
 
-            const newQuestions = arrayMove(prevData.questions, oldIndex, newIndex);
-            return { ...prevData, questions: newQuestions };
-        });
+        const newQuestions = arrayMove(prevData.questions, oldIndex, newIndex);
+        return { ...prevData, questions: newQuestions };
+      });
     }
   };
 
   return (
     <div className="dashboard">
       <h1> Dashboard</h1>
+      <button onClick={handleNavigate}>
+        HOME
+      </button>
       <div style={{ marginBottom: "20px" }}>
         <label
           htmlFor="quizTitle"
@@ -460,13 +477,13 @@ function Dashboard() {
         />
       </div>
       <hr /> <h2>Questions({quizData.questions.length})</h2>
-      
+
       <DndContext
         collisionDetection={closestCenter}
         onDragEnd={onQuestionDragEnd}
       >
         <SortableContext
-          items={quizData.questions.map(q => q.id)} 
+          items={quizData.questions.map(q => q.id)}
           strategy={verticalListSortingStrategy}
         >
           <div className="questionList">
@@ -477,6 +494,7 @@ function Dashboard() {
                 onUpdate={handleUpdateQuestion}
                 onDelete={handleDeleteQuestion}
                 products={products}
+                onProductsLoaded={handleProductsLoaded}
               />
             ))}
           </div>
@@ -486,9 +504,7 @@ function Dashboard() {
       <button onClick={handleAddQuestion} className="addButton">
         Add New Question
       </button>
-      <button onClick={handleNavigate}>
-        HOME
-      </button>
+
     </div>
   );
 }

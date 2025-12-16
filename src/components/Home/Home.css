@@ -1,36 +1,112 @@
+.main{
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
 .content{
   width: 100%;
-  height: 100vh;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 45px;
-  font-family: Crimson Text;
+  font-family: 'Crimson Text', serif;
+  text-align: center;
 }
+.contentHome{
+  height: 750px;
+}
+
 .header{
   font-size: 50px;
   font-weight: 400;
-  letter-spacing: 6%;
-  line-height: 100%;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  margin-bottom: 45px;
+  max-width: 90%;
 }
+
 .infoContent{
-  width: 915px;
+  width: 100%;
+  max-width: 915px;
   text-align: center;
+  margin-bottom: 45px;
+  padding: 0 15px;
+  box-sizing: border-box;
 }
+
 .info{
   font-size: 28px;
-  line-height: 100%;
+  line-height: 1.5;
   color: #444444;
 }
+
 .takeBtn{
   background-color: black;
   padding: 10px;
   color: white;
-  width: 382px;
+  width: 100%;
+  max-width: 382px;
   height: 67px;
   font-size: 36px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.takeBtn:hover {
+    background-color: #333;
+}
+
+@media (max-width: 768px) {
+    .header {
+        font-size: 40px;
+        margin-bottom: 30px;
+    }
+
+    .info {
+        font-size: 22px;
+    }
+
+    .takeBtn {
+        max-width: 300px;
+        height: 60px;
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .content {
+        gap: 30px;
+    }
+
+    .header {
+        font-size: 30px;
+        letter-spacing: 0.04em;
+        margin-bottom: 20px;
+        padding: 0 10px;
+    }
+
+    .infoContent {
+        max-width: 90%;
+        margin-bottom: 20px;
+    }
+    
+    .info {
+        font-size: 18px;
+        line-height: 1.4;
+    }
+
+    .takeBtn {
+        max-width: 250px;
+        height: 50px;
+        font-size: 24px;
+        padding: 5px;
+    }
 }

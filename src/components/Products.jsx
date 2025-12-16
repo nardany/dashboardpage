@@ -1,28 +1,48 @@
 import { useState, useEffect } from "react";
 
-function ProductSelector({ onProductAttach, attachedProductIds }) {
+function ProductSelector({
+  onProductAttach,
+  attachedProductIds,
+  onProductsLoaded,
+}) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isSelecting, setIsSelecting] = useState(false);
 
-  const API_URL = "https://api.escuelajs.co/api/v1/products?offset=0&limit=10";
-
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
-        const response = await fetch(API_URL);
+        const response = await fetch("https://api.escuelajs.co/api/v1/products?offset=0&limit=20");
         const data = await response.json();
-        setProducts(data);
+        
+        const sanitized = data.map(p => ({
+            id: p.id.toString(),
+            title: p.title,
+            price: p.price,
+            description: p.description,
+            image: Array.isArray(p.images) && p.images.length > 0 
+                   ? p.images[0].replace(/[\[\]"]/g, "") 
+                   : null,
+        }));
+
+        setProducts(sanitized); 
+        localStorage.setItem("quizBuilderProducts", JSON.stringify(sanitized));
+
+        if (onProductsLoaded) {
+            onProductsLoaded(sanitized); 
+        }
       } catch (error) {
         console.error("Error fetching:", error);
       } finally {
         setLoading(false);
       }
     };
+    
     if (isSelecting && products.length === 0) {
       fetchProducts();
-    }
-  }, [isSelecting, products.length]);
+    } 
+  }, [isSelecting]);
 
   const handleSelect = (productId) => {
     onProductAttach(productId);
@@ -75,20 +95,18 @@ function ProductSelector({ onProductAttach, attachedProductIds }) {
       }}
     >
       {" "}
-      <p style={{ fontWeight: "bold" }}> Chose ONE or MORE Products</p>
-    {" "}
+      <p style={{ fontWeight: "bold" }}> Chose ONE or MORE Products</p>{" "}
       <button
         onClick={() => setIsSelecting(false)}
         style={{ float: "right", cursor: "pointer" }}
       >
         —
-      </button>
-     {" "}
+      </button>{" "}
       {loading ? (
         <p>Loading...</p>
       ) : (
         <ul style={{ listStyle: "none", padding: 0 }}>
-        {" "}
+          {" "}
           {products.map((product) => {
             const isAttached =
               attachedProductIds &&
@@ -108,11 +126,9 @@ function ProductSelector({ onProductAttach, attachedProductIds }) {
                 ID: {product.id} - {product.title} (${product.price}){" "}
               </li>
             );
-          })}
-          {" "}
+          })}{" "}
         </ul>
-      )}
-     {" "}
+      )}{" "}
     </div>
   );
 }

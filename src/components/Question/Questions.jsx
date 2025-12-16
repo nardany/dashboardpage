@@ -134,9 +134,30 @@ function Question() {
     });
   };
 
-  const handleResult = () => {
-    navigate("/result");
-  };
+ const handleResult = () => {
+  if (!isAnswerValid()) {
+    setShowValidation(true);
+    return;
+  }
+  const selectedChoicesObjects = [];
+  quizQuestions.forEach((question) => {
+    const answerValue = userAnswers[question.id];
+    if (question.type === "radio") {
+      const selectedChoice = question.choices.find(c => c.id === answerValue);
+      if (selectedChoice) selectedChoicesObjects.push(selectedChoice);
+    } 
+    else if (question.type === "checkbox") {
+      if (Array.isArray(answerValue)) {
+        answerValue.forEach(choiceId => {
+          const selectedChoice = question.choices.find(c => c.id === choiceId);
+          if (selectedChoice) selectedChoicesObjects.push(selectedChoice);
+        });
+      }
+    }
+  });
+  localStorage.setItem("userQuizAnswers", JSON.stringify(selectedChoicesObjects));
+  navigate("/result");
+};
   const renderQuestion = (q) => {
     const currentAnswer =
       userAnswers[q.id] || (q.type === "checkbox" ? [] : "");
