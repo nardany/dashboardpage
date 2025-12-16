@@ -284,7 +284,7 @@ const QuestionBlock = ({
     const updatedChoices = question.choices.map((c) =>
       c.id === choiceId ? { ...c, productIds: newProductIds } : c
     );
-    onUpdate({ ...question, choices: updatedChoices });
+    onUpdate({ ...question, choices: updatedChoices })
   };
 
   return (
@@ -385,9 +385,11 @@ function Dashboard() {
     if (savedProducts) setProducts(JSON.parse(savedProducts));
   }, []);
 
-  useEffect(() => {
+
+  const handleSave = ()=>{
     localStorage.setItem("quizBuilderData", JSON.stringify(quizData));
-  }, [quizData]);
+    navigate("/")
+  }
 
   const handleAddQuestion = () => {
     const newQuestion = {
@@ -472,9 +474,14 @@ function Dashboard() {
           </div>
         </SortableContext>
       </DndContext>
+      <div style={{display:"flex",justifyContent: "space-between"}}>
       <button onClick={handleAddQuestion} className="addButton">
         Add New Question
       </button>
+      <button className="addButton" onClick={handleSave} >
+        Save 
+      </button>
+      </div>
     </div>
   );
 }
