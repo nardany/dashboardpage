@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Question.css";
+
+
 const getInitialAnswersState = (questions) => {
   return questions.reduce((acc, q) => {
     acc[q.id] = q.type === "checkbox" ? [] : "";
     return acc;
   }, {});
 };
+
 const BackIcon = () => {
   return (
     <svg
@@ -26,6 +29,7 @@ const BackIcon = () => {
     </svg>
   );
 };
+
 const NextIcon = () => {
   return (
     <svg
@@ -45,6 +49,7 @@ const NextIcon = () => {
     </svg>
   );
 };
+
 function Question() {
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -54,12 +59,10 @@ function Question() {
 
   useEffect(() => {
     const savedQuizData = localStorage.getItem("quizBuilderData");
-
     if (savedQuizData) {
       try {
         const data = JSON.parse(savedQuizData);
         const questions = data.questions || [];
-
         setQuizQuestions(questions);
         setUserAnswers(getInitialAnswersState(questions));
       } catch (e) {
@@ -69,6 +72,7 @@ function Question() {
     }
   }, []);
 
+ 
   const questionsCount = quizQuestions.length;
   if (questionsCount === 0) {
     return (
@@ -82,10 +86,10 @@ function Question() {
   const currentQuestion = quizQuestions[currentQuestionIndex];
   const isFirstQuestion = currentQuestionIndex === 0;
   const isLastQuestion = currentQuestionIndex === questionsCount - 1;
+
   const isAnswerValid = () => {
     const answer = userAnswers[currentQuestion.id];
     const questionType = currentQuestion.type;
-
     if (questionType === "text") {
       return typeof answer === "string" && answer.trim() !== "";
     } else if (questionType === "radio" || questionType === "checkbox") {
@@ -97,9 +101,10 @@ function Question() {
     }
     return true;
   };
+
   const handleNext = () => {
     if (!isAnswerValid()) {
-      setShowValidation(true); 
+      setShowValidation(true);
       return;
     }
     setShowValidation(false);
@@ -111,9 +116,8 @@ function Question() {
   const handlePrevious = () => {
     if (!isFirstQuestion) {
       setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
-    }
-    else if(isFirstQuestion){
-      navigate("/")
+    } else if (isFirstQuestion) {
+      navigate("/");
     }
   };
 
@@ -137,35 +141,43 @@ function Question() {
     });
   };
 
- const handleResult = () => {
-  if (!isAnswerValid()) {
-    setShowValidation(true);
-    return;
-  }
-  const selectedChoicesObjects = [];
-  quizQuestions.forEach((question) => {
-    const answerValue = userAnswers[question.id];
-    if (question.type === "radio") {
-      const selectedChoice = question.choices.find(c => c.id === answerValue);
-      if (selectedChoice) selectedChoicesObjects.push(selectedChoice);
-    } 
-    else if (question.type === "checkbox") {
-      if (Array.isArray(answerValue)) {
-        answerValue.forEach(choiceId => {
-          const selectedChoice = question.choices.find(c => c.id === choiceId);
-          if (selectedChoice) selectedChoicesObjects.push(selectedChoice);
-        });
-      }
+  const handleResult = () => {
+    if (!isAnswerValid()) {
+      setShowValidation(true);
+      return;
     }
-  });
-  localStorage.setItem("userQuizAnswers", JSON.stringify(selectedChoicesObjects));
-  navigate("/result");
-};
+    const selectedChoicesObjects = [];
+    quizQuestions.forEach((question) => {
+      const answerValue = userAnswers[question.id];
+      if (question.type === "radio") {
+        const selectedChoice = question.choices.find(
+          (c) => c.id === answerValue
+        );
+        if (selectedChoice) selectedChoicesObjects.push(selectedChoice);
+      } else if (question.type === "checkbox") {
+        if (Array.isArray(answerValue)) {
+          answerValue.forEach((choiceId) => {
+            const selectedChoice = question.choices.find(
+              (c) => c.id === choiceId
+            );
+            if (selectedChoice) selectedChoicesObjects.push(selectedChoice);
+          });
+        }
+      }
+    });
+    localStorage.setItem(
+      "userQuizAnswers",
+      JSON.stringify(selectedChoicesObjects)
+    );
+    navigate("/result");
+  };
+  
   const renderQuestion = (q) => {
     const currentAnswer =
       userAnswers[q.id] || (q.type === "checkbox" ? [] : "");
-      const isOddCount = q.choices.length % 2 !== 0; 
-       const containerClass = `options-container ${isOddCount ? 'odd-count-center' : ''}`;
+    const isOddCount = q.choices.length % 2 !== 0;
+    const containerClass = `options-container ${isOddCount ? "odd-count-center" : ""
+      }`;
     switch (q.type) {
       case "radio":
         return (
@@ -192,7 +204,7 @@ function Question() {
         );
       case "checkbox":
         return (
-          <div  className={containerClass}>
+          <div className={containerClass}>
             {q.choices.map((choice) => (
               <div key={choice.id}>
                 <input
@@ -246,55 +258,47 @@ function Question() {
           <div>{renderQuestion(currentQuestion)}</div>
         </div>
         <div className="buttonMainContent">
-          <div
-            className="buttonContent"
-            onClick={handlePrevious}
-            >
+          <div className="buttonContent" onClick={handlePrevious}>
             <BackIcon />
-          <button
-            style={{
-              padding: "10px 20px",
-              cursor: "pointer",
-              border: "none",
-              borderRadius: "4px",
-            }}
-          >
-            Back
-          </button>
+            <button
+              style={{
+                padding: "10px 20px",
+                cursor: "pointer",
+                border: "none",
+                borderRadius: "4px",
+              }}
+            >
+              Back
+            </button>
           </div>
 
           {isLastQuestion ? (
-            <div
-             className="buttonContent"
-             onClick={handleResult}
-             >
-            <button
-              style={{
-                padding: "10px 20px",
-                cursor: "pointer",
-                border: "none",
-                borderRadius: "4px",
-              }}
-            >
-              Next
-            </button>
-              <NextIcon/>
+            <div className="buttonContent" onClick={handleResult}>
+              <button
+                style={{
+                  padding: "10px 20px",
+                  cursor: "pointer",
+                  border: "none",
+                  borderRadius: "4px",
+                }}
+              >
+                Next
+              </button>
+              <NextIcon />
             </div>
           ) : (
-            <div
-              onClick={handleNext}
-              className="buttonContent">
-            <button
-              style={{
-                padding: "10px 20px",
-                cursor: "pointer",
-                border: "none",
-                borderRadius: "4px",
-              }}
-            >
-              Next
-            </button>
-              <NextIcon/>
+            <div onClick={handleNext} className="buttonContent">
+              <button
+                style={{
+                  padding: "10px 20px",
+                  cursor: "pointer",
+                  border: "none",
+                  borderRadius: "4px",
+                }}
+              >
+                Next
+              </button>
+              <NextIcon />
             </div>
           )}
         </div>

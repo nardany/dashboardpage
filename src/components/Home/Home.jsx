@@ -45,8 +45,8 @@ function Home() {
             recommendations specifically for your hair type.
           </p>
         </div>
-        <button 
-          className={`takeBtn ${!hasQuestions ? "disabledBtn" : ""}`} 
+        <button
+          className={`takeBtn ${!hasQuestions ? "disabledBtn" : ""}`}
           onClick={handleNavigate}
           disabled={!hasQuestions}
           style={{

@@ -15,22 +15,22 @@ function ProductSelector({
       try {
         const response = await fetch("https://api.escuelajs.co/api/v1/products?offset=0&limit=20");
         const data = await response.json();
-        
+
         const sanitized = data.map(p => ({
-            id: p.id.toString(),
-            title: p.title,
-            price: p.price,
-            description: p.description,
-            image: Array.isArray(p.images) && p.images.length > 0 
-                   ? p.images[0].replace(/[\[\]"]/g, "") 
-                   : null,
+          id: p.id.toString(),
+          title: p.title,
+          price: p.price,
+          description: p.description,
+          image: Array.isArray(p.images) && p.images.length > 0
+            ? p.images[0].replace(/[\[\]"]/g, "")
+            : null,
         }));
 
-        setProducts(sanitized); 
+        setProducts(sanitized);
         localStorage.setItem("quizBuilderProducts", JSON.stringify(sanitized));
 
         if (onProductsLoaded) {
-            onProductsLoaded(sanitized); 
+          onProductsLoaded(sanitized);
         }
       } catch (error) {
         console.error("Error fetching:", error);
@@ -38,10 +38,10 @@ function ProductSelector({
         setLoading(false);
       }
     };
-    
+
     if (isSelecting && products.length === 0) {
       fetchProducts();
-    } 
+    }
   }, [isSelecting]);
 
   const handleSelect = (productId) => {

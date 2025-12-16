@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import ImgDefault from "../../assets/defaultimg.jpg"
+import ImgDefault from "../../assets/defaultimg.jpg";
 import "./Result.css";
 
 const StarIcon = () => {
@@ -69,8 +69,23 @@ function Result() {
     <div className="mainResult">
       <div className="content">
         <header style={{ textAlign: "center", marginBottom: "20px" }}>
-          <span style={{ fontSize: "36px", fontWeight: "bold",textTransform : "uppercase" }}>
-            Your Hair type is: <span style={{ color: "#1F7984",textTransform : "uppercase", borderBottom : "2px solid #1F7984" }}>OILY</span>
+          <span
+            style={{
+              fontSize: "36px",
+              fontWeight: "bold",
+              textTransform: "uppercase",
+            }}
+          >
+            Your Hair type is:{" "}
+            <span
+              style={{
+                color: "#1F7984",
+                textTransform: "uppercase",
+                borderBottom: "2px solid #1F7984",
+              }}
+            >
+              OILY
+            </span>
           </span>
         </header>
 
@@ -112,34 +127,37 @@ function Result() {
                       />
                     )}
                   </div>
-                  <div style={{display : "flex",flexDirection : "column",gap : "20px"}}>
-
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "20px",
+                    }}
+                  >
                     <div className="starReview">
-                          <div>
-                            <StarIcon/>
-                            <StarIcon/>
-                            <StarIcon/>
-                            <StarIcon/>
-                            <StarIcon/>
-                          </div>
-                          <div>
-                            <p className="reviewText">
-                              10 reviews
-                            </p>
-                          </div>
+                      <div>
+                        <StarIcon />
+                        <StarIcon />
+                        <StarIcon />
+                        <StarIcon />
+                        <StarIcon />
+                      </div>
+                      <div>
+                        <p className="reviewText">10 reviews</p>
+                      </div>
                     </div>
                     <div className="productItmes">
-                  <h3 className="productName">{product.title}</h3>
-                  <span className="productPrice">${product.price}</span>
+                      <h3 className="productName">{product.title}</h3>
+                      <span className="productPrice">${product.price}</span>
                     </div>
-                  <button className="cartBtn">Add to cart</button>
-                  <div className="productFooter">
-                    <p className="productDesc">
-                    {product.description
-                      ? `${product.description.substring(0, 70)}...`
-                      : "No description available"}
-                  </p>
-                  </div>
+                    <button className="cartBtn">Add to cart</button>
+                    <div className="productFooter">
+                      <p className="productDesc">
+                        {product.description
+                          ? `${product.description.substring(0, 70)}...`
+                          : "No description available"}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}

@@ -1,32 +1,37 @@
-.mainDashboard{
+.mainDashboard {
     border: 1px solid black;
     padding: 15px;
     margin: 10px 0px;
     border-radius: 5px;
 }
-.dashboard{
+
+.dashboard {
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
 }
+
 .dashboard input {
     width: 100%;
     padding: 10px;
     font-size: 16px;
 }
-.questionContent{
+
+.questionContent {
     display: flex;
     justify-content: space-between;
-    align-items: center; 
+    align-items: center;
     margin-bottom: 10px;
 }
-.questionContent input{
+
+.questionContent input {
     flex-grow: 1;
     padding: 8px;
     margin-right: 10px;
     font-size: 16px;
 }
-.deleteBtn{
+
+.deleteBtn {
     background-color: red;
     color: white;
     border: none;
@@ -35,6 +40,7 @@
     cursor: pointer;
     margin-left: 5px;
 }
+
 .choiceBtn {
     background-color: #91f394;
     color: black;
@@ -43,7 +49,8 @@
     cursor: pointer;
     margin-top: 10px;
 }
-.addButton{
+
+.addButton {
     padding: 10px 20px;
     background-color: #91f394;
     color: black;
@@ -52,10 +59,11 @@
     margin-top: 15px;
 }
 
-.choiceInput{
-    flex-grow: 1; 
+.choiceInput {
+    flex-grow: 1;
 }
-.choiceInput input{
+
+.choiceInput input {
     flex-grow: 1;
     padding: 5px;
 }

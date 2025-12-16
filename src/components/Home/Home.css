@@ -1,4 +1,4 @@
-.main{
+.main {
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -9,7 +9,7 @@
   flex-direction: column;
 }
 
-.content{
+.content {
   width: 100%;
   max-width: 1000px;
   display: flex;
@@ -19,11 +19,12 @@
   font-family: 'Crimson Text', serif;
   text-align: center;
 }
-.contentHome{
+
+.contentHome {
   height: 700px;
 }
 
-.header{
+.header {
   font-size: 50px;
   font-weight: 400;
   letter-spacing: 0.06em;
@@ -32,7 +33,7 @@
   max-width: 90%;
 }
 
-.infoContent{
+.infoContent {
   width: 100%;
   max-width: 915px;
   text-align: center;
@@ -41,13 +42,13 @@
   box-sizing: border-box;
 }
 
-.info{
+.info {
   font-size: 28px;
   line-height: 1.5;
   color: #444444;
 }
 
-.takeBtn{
+.takeBtn {
   background-color: black;
   padding: 10px;
   color: white;
@@ -62,48 +63,48 @@
 }
 
 @media (max-width: 768px) {
-    .header {
-        font-size: 40px;
-        margin-bottom: 30px;
-    }
+  .header {
+    font-size: 40px;
+    margin-bottom: 30px;
+  }
 
-    .info {
-        font-size: 22px;
-    }
+  .info {
+    font-size: 22px;
+  }
 
-    .takeBtn {
-        max-width: 300px;
-        height: 60px;
-        font-size: 28px;
-    }
+  .takeBtn {
+    max-width: 300px;
+    height: 60px;
+    font-size: 28px;
+  }
 }
 
 @media (max-width: 480px) {
-    .content {
-        gap: 30px;
-    }
+  .content {
+    gap: 30px;
+  }
 
-    .header {
-        font-size: 30px;
-        letter-spacing: 0.04em;
-        margin-bottom: 20px;
-        padding: 0 10px;
-    }
+  .header {
+    font-size: 30px;
+    letter-spacing: 0.04em;
+    margin-bottom: 20px;
+    padding: 0 10px;
+  }
 
-    .infoContent {
-        max-width: 90%;
-        margin-bottom: 20px;
-    }
-    
-    .info {
-        font-size: 18px;
-        line-height: 1.4;
-    }
+  .infoContent {
+    max-width: 90%;
+    margin-bottom: 20px;
+  }
 
-    .takeBtn {
-        max-width: 250px;
-        height: 50px;
-        font-size: 24px;
-        padding: 5px;
-    }
+  .info {
+    font-size: 18px;
+    line-height: 1.4;
+  }
+
+  .takeBtn {
+    max-width: 250px;
+    height: 50px;
+    font-size: 24px;
+    padding: 5px;
+  }
 }
