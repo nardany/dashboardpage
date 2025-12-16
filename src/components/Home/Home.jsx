@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react'; // Ավելացված է
+import { useState, useEffect } from 'react';
 import "./Home.css";
 
 function Home() {
-  const navigate = useNavigate();
   const [hasQuestions, setHasQuestions] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedData = localStorage.getItem("quizBuilderData");
