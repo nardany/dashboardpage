@@ -1,18 +1,42 @@
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react'; // Ավելացված է
 import "./Home.css";
 
-function Home(){
-  const navigate = useNavigate(); 
+function Home() {
+  const navigate = useNavigate();
+  const [hasQuestions, setHasQuestions] = useState(false);
 
-  const handleNavigate =()=>{
-      navigate("/questions")
-  }
-  const handleDashboard = ()=>{
-    navigate("/dashboard")
-  }
-    return(
+  useEffect(() => {
+    const savedData = localStorage.getItem("quizBuilderData");
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+        if (parsedData.questions && parsedData.questions.length > 0) {
+          setHasQuestions(true);
+        } else {
+          setHasQuestions(false);
+        }
+      } catch (e) {
+        setHasQuestions(false);
+      }
+    }
+  }, []);
+
+  const handleNavigate = () => {
+    if (hasQuestions) {
+      navigate("/questions");
+    }
+  };
+
+  const handleDashboard = () => {
+    navigate("/dashboard");
+  };
+
+  return (
     <div className="main">
-      <button style={{marginBottom : "15px"}} onClick={handleDashboard}>Dashboard</button>
+      <button style={{ marginBottom: "15px" }} onClick={handleDashboard}>
+        Dashboard
+      </button>
       <div className="content contentHome">
         <p className="header">FIND OUT YOUR HAIR TYPE</p>
         <div className="infoContent">
@@ -21,9 +45,26 @@ function Home(){
             recommendations specifically for your hair type.
           </p>
         </div>
-        <button className="takeBtn" onClick={handleNavigate}>Take Our Quiz</button>
+        <button 
+          className={`takeBtn ${!hasQuestions ? "disabledBtn" : ""}`} 
+          onClick={handleNavigate}
+          disabled={!hasQuestions}
+          style={{
+            opacity: hasQuestions ? 1 : 0.5,
+            cursor: hasQuestions ? "pointer" : "not-allowed"
+          }}
+        >
+          {hasQuestions ? "Take Our Quiz" : "Not ready yet"}
+        </button>
+
+        {!hasQuestions && (
+          <p style={{ color: "red", marginTop: "10px", fontSize: "0.8em" }}>
+            The admin hasn't added any questions yet.
+          </p>
+        )}
       </div>
     </div>
-    )
+  );
 }
-export default Home
+
+export default Home;

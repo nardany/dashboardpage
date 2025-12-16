@@ -70,7 +70,7 @@ function Result() {
       <div className="content">
         <header style={{ textAlign: "center", marginBottom: "20px" }}>
           <span style={{ fontSize: "36px", fontWeight: "bold",textTransform : "uppercase" }}>
-            Your Hair type is: <span style={{ color: "#1F7984",textTransform : "uppercase" }}>OILY</span>
+            Your Hair type is: <span style={{ color: "#1F7984",textTransform : "uppercase", borderBottom : "2px solid #1F7984" }}>OILY</span>
           </span>
         </header>
 

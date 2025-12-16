@@ -31,7 +31,7 @@
 .productTitle {
     font-size: 26px;
     font-family: Crimson Text;
-    text-transform:uppercase;
+    text-transform: uppercase;
 }
 
 .productsGrid {
@@ -63,19 +63,32 @@
     letter-spacing: 0%;
 }
 
-.reviewText{
+.productPrice {
+    font-family: Crimson Text;
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: right;
+
+}
+
+.reviewText {
     color: #BABABA;
     font-size: 16px;
 }
-.productDesc{
+
+.productDesc {
     font-size: 18px;
     margin-bottom: 15px;
-    word-wrap: break-word; 
+    word-wrap: break-word;
     overflow-wrap: break-word;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
 .productImg {
     max-width: 260px;
     width: 100%;
@@ -89,8 +102,12 @@
     flex-direction: column;
     align-items: flex-start;
     margin-left: 20px;
+    gap: 10px;
 }
-.cartBtn{
+.resultContent{
+    width: 80%;
+}
+.cartBtn {
     background-color: black;
     gap: 10px;
     color: white;
@@ -102,8 +119,9 @@
     cursor: pointer;
     margin-left: 15px;
 }
+
 @media (max-width: 1100px) {
- .productsGrid {
+    .productsGrid {
         grid-template-columns: repeat(2, 1fr) !important;
     }
 }
