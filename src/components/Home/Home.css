@@ -61,7 +61,13 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
+.toDashboardPage{
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
 @media (max-width: 768px) {
   .header {
     font-size: 40px;

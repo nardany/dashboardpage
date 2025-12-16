@@ -423,7 +423,7 @@ function Dashboard() {
   return (
     <div className="dashboard">
       <h1>Dashboard</h1>
-      <button onClick={() => navigate("/")}>HOME</button>
+      <button onClick={() => navigate("/")} className='toDashboardPage' >HOME</button>
       <div style={{ marginBottom: "20px" }}>
         <label
           style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}

@@ -34,7 +34,7 @@ function Home() {
 
   return (
     <div className="main">
-      <button style={{ marginBottom: "15px" }} onClick={handleDashboard}>
+      <button style={{ marginBottom: "15px" }} className='toDashboardPage' onClick={handleDashboard}>
         Dashboard
       </button>
       <div className="content contentHome">
